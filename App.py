@@ -266,6 +266,7 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Poll App')
         self.setGeometry(0, 0, 1920, 1080)
         self.setStyleSheet("background-color: rgb(32, 32, 33);")
+        # self.setStyleSheet("background-color: rgb(255, 255, 255);")
         # Центральный виджет
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -424,7 +425,8 @@ class MainWindow(QMainWindow):
         self.right_container = QFrame()
         self.right_container.setMinimumWidth(400)
         self.right_container.setStyleSheet("""
-            border: 1px solid rgba(0, 0, 0, 100);
+            border: none;
+            border-left: 2px solid rgba(0, 0, 0, 100);
         """)
         self.right_container.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
@@ -438,7 +440,8 @@ class MainWindow(QMainWindow):
         author_frame.setFrameShape(QFrame.Shape.StyledPanel)
         author_frame.setFixedHeight(100)
         author_frame.setStyleSheet("""
-                border: 1px solid rgba(0, 0, 0, 100);
+                border: none;
+                border-bottom: 2px solid rgba(0, 0, 0, 100);
         """)
         author_layout = QHBoxLayout(author_frame)
         self.author_name_box = QLabel(self.db.authors[self.db.current_id]["nickname"])
@@ -598,12 +601,14 @@ class MainWindow(QMainWindow):
             score_frame_layout = QVBoxLayout(self.score_frame)
 
             score_frame_header = QFrame()
-            score_frame_header.setFixedHeight(50)
+            score_frame_header.setFixedHeight(39)
             score_frame_header.setStyleSheet("""
                 border: none;
                 margin: 0px;
             """)
             score_frame_header_layout = QHBoxLayout(score_frame_header)
+            score_frame_header_layout.setContentsMargins(10, 0, 0, 0)
+            score_frame_header_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter) 
 
             score_frame_header_image = QLabel()
             score_frame_header_image.setFixedHeight(32)
@@ -621,10 +626,12 @@ class MainWindow(QMainWindow):
 
             score_frame_header_text = QLabel("Комментарий автора")
             score_frame_header_text.setFont(self.font_manager.get_Font("InterTight", 24))
-            score_frame_header_text.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            
+            score_frame_header_text.setAlignment(Qt.AlignmentFlag.AlignTop)
             score_frame_header_text.setFixedHeight(39)
             score_frame_header_text.setStyleSheet("""
                 QLabel{
+                    text-align: top;
                     color: rgb(255, 255, 255);
                     border: none;
                     margin: 0px;
@@ -637,15 +644,17 @@ class MainWindow(QMainWindow):
 
             score_frame_paragraph = QLabel(self.db.authors[self.db.current_id]["comment"])
             score_frame_paragraph.setWordWrap(True)
-            score_frame_paragraph.setMinimumHeight(40)
+            score_frame_paragraph.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.MinimumExpanding)
             score_frame_paragraph.setFont(self.font_manager.get_Font("InterTight", 16))
+            score_frame_paragraph.setContentsMargins(10, 0, 0, 0)
             score_frame_paragraph.setAlignment(Qt.AlignmentFlag.AlignLeft)
             score_frame_paragraph.setFixedWidth(430)
             score_frame_paragraph.setStyleSheet("""
                 QLabel{
                     color: rgb(255, 255, 255);
                     border: none;
-                    margin-left: 5px;
+                    margin: 0px;
+                    
                     padding: 0px;
                     
                 }
@@ -658,13 +667,15 @@ class MainWindow(QMainWindow):
         elif frameid == 1: #Polling
             score_frame_layout = QVBoxLayout(self.score_frame)
             score_frame_header = QFrame()
-            score_frame_header.setFixedHeight(50)
+            score_frame_header.setFixedHeight(39)
             score_frame_header.setStyleSheet("""
                 border: none;
                 margin: 0px;
             """)
 
             score_frame_header_layout = QHBoxLayout(score_frame_header)
+            score_frame_header_layout.setContentsMargins(10, 0, 0, 0)
+            score_frame_header_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
 
             score_frame_header_image = QLabel()
             score_frame_header_image.setFixedHeight(32)
@@ -688,7 +699,6 @@ class MainWindow(QMainWindow):
                 QLabel{
                     color: rgb(255, 255, 255);
                     border: none;
-                    margin: 0px;
                     padding: 0px;
                 }
             """)
@@ -699,13 +709,13 @@ class MainWindow(QMainWindow):
 
             score_frame_paragraph = QLabel("Напишите в чат оценку от 1 до 10")
             score_frame_paragraph.setFont(self.font_manager.get_Font("InterTight", 16))
+            score_frame_paragraph.setContentsMargins(10, 0, 0, 0)
             score_frame_paragraph.setAlignment(Qt.AlignmentFlag.AlignLeft)
             score_frame_paragraph.setFixedHeight(29)
             score_frame_paragraph.setStyleSheet("""
                 QLabel{
                     color: rgb(255, 255, 255);
                     border: none;
-                    margin: px;
                     padding: 0px;
                 }
             """)
@@ -757,7 +767,9 @@ class MainWindow(QMainWindow):
 
            
                 score_author_link_code = QLabel()
-                score_author_link_code.setFixedWidth(310)
+                score_author_link_code.setContentsMargins(100, 0, 0, 0)
+                score_author_link_code.setAlignment(Qt.AlignmentFlag.AlignRight)
+                score_author_link_code.setFixedWidth(340)
                 score_author_link_code.setFixedHeight(310)
                 path = Create_QRCode(self.db.current_id, self.db.authors[self.db.current_id]["link_social_media"])
                 score_author_link_code.setStyleSheet(f"""
@@ -766,7 +778,6 @@ class MainWindow(QMainWindow):
                         background-repeat: no-repeat;
                         background-position: center;
                         border: none;
-                        margin: 0px;
                         padding: 0px;
                     }}
                 """)
@@ -778,12 +789,14 @@ class MainWindow(QMainWindow):
             score_frame_layout = QVBoxLayout(self.score_frame)
 
             self.score_frame_header = QFrame()
-            self.score_frame_header.setFixedHeight(50)
+            self.score_frame_header.setFixedHeight(39)
             self.score_frame_header.setStyleSheet("""
                 border: none;
                 margin: 0px;
             """)
             score_frame_header_layout = QHBoxLayout(self.score_frame_header)
+            score_frame_header_layout.setContentsMargins(10, 0, 0, 0)
+            score_frame_header_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
             
             score__star_frame_header_image = QLabel()
             score__star_frame_header_image.setFixedHeight(32)
@@ -816,14 +829,13 @@ class MainWindow(QMainWindow):
             score_frame_header_layout.addWidget(score_frame_header_text)
             
             self.score_number_label = QLabel(str(round(float(self.db.authors[self.db.current_id]["score"]), 1)))
-            print(type(self.db.authors[self.db.current_id]["score"]))
+            self.score_number_label.setContentsMargins(10, 0, 0 ,0)
             self.score_number_label.setFixedHeight(64)
             self.score_number_label.setFont(self.font_manager.get_Font("TikTokSans", 64))
             self.score_number_label.setStyleSheet("""
                 color: rgb(251, 145, 168);
-                font-weight: bold;
+                font-weight: 900;
                 border: none;
-                margin: 0px;
             """)
 
             score_frame_layout.addWidget(self.score_frame_header)
@@ -834,13 +846,15 @@ class MainWindow(QMainWindow):
             self.setAuthorId(self.db.total_authors, self.db.total_authors)
             score_frame_layout = QVBoxLayout(self.score_frame)
             score_frame_header = QFrame()
-            score_frame_header.setFixedHeight(50)
+            score_frame_header.setFixedHeight(39)
             score_frame_header.setStyleSheet("""
                 border: none;
                 margin: 0px;
             """)
 
             score_frame_header_layout = QHBoxLayout(score_frame_header)
+            score_frame_header_layout.setContentsMargins(10, 0, 0, 0)
+            score_frame_header_layout.setAlignment(Qt.AlignmentFlag.AlignVCenter)
 
             score_frame_header_image = QLabel()
             score_frame_header_image.setFixedHeight(32)
@@ -851,7 +865,6 @@ class MainWindow(QMainWindow):
                     background-repeat: no-repeat;
                     background-position: center;
                     border: none;
-                    margin: 0px;
                     padding: 0px;
                 }
             """)
