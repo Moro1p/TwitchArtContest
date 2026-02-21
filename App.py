@@ -94,7 +94,7 @@ class AnimatedColumn(QWidget):
             font = self.font_manager.get_Font("TikTokSans", 64)
             font.setBold(True)
             painter.setFont(font)
-            painter.setPen(Qt.GlobalColor.black)
+            painter.setPen(QColor(32, 32 ,33))
             painter.drawText(col_rect, Qt.AlignmentFlag.AlignCenter, str(display_number))
 
         # Draw image above the column (if available)
@@ -830,8 +830,8 @@ class MainWindow(QMainWindow):
             
             self.score_number_label = QLabel(str(round(float(self.db.authors[self.db.current_id]["score"]), 1)))
             self.score_number_label.setContentsMargins(10, 0, 0 ,0)
-            self.score_number_label.setFixedHeight(64)
-            self.score_number_label.setFont(self.font_manager.get_Font("TikTokSans", 64))
+            self.score_number_label.setFixedHeight(148)
+            self.score_number_label.setFont(self.font_manager.get_Font("TikTokSans", 96))
             self.score_number_label.setStyleSheet("""
                 color: rgb(251, 145, 168);
                 font-weight: 900;
