@@ -254,7 +254,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(self.windowFlags())
-        # self.twitch_bot = TwitchBot()
+        self.twitch_bot = TwitchBot()
         self.font_manager = FontManager()
         self.db = DataBaseManager()
         self.i = 0
@@ -560,33 +560,30 @@ class MainWindow(QMainWindow):
                 self.setVoteButtonText("Начать голосование")
         
     def VoteButtonClickEvent(self):
-        self.i += 1
-        self.i %= 3
-        self.SetScoreFrame(self.i)
-        # self.current_image_view.reset_transform()
-        # self.current_image_view.center_on_image()
-        # if self.twitch_bot.poll_in_progress is False and self.db.authors[self.db.current_id]["score"] is None:
-        #     self.SetScoreFrame(1)
-        #     self.twitch_bot.poll_art_id = self.db.current_id
-        #     self.twitch_bot.poll_in_progress = True
-        #     self.setVoteButtonText("Закончить голосование")
-        # elif self.twitch_bot.poll_in_progress and self.db.current_id == self.twitch_bot.poll_art_id:
-        #     print(self.db.total_scores, self.db.total_authors)
-        #     if self.db.total_scores + 1 == self.db.total_authors:
-        #         self.InitPodiumButton()
-        #     score = str(self.twitch_bot.CalculateAverageScore())
-        #     if score == -1:
-        #         print("Failed to fetch score results")
-        #         return
-        #     self.db.authors[self.db.current_id]["score"] = score
-        #     self.db.total_scores += 1
-        #     self.db.UpdateScore(self.db.current_id+1, score)
+        self.current_image_view.reset_transform()
+        self.current_image_view.center_on_image()
+        if self.twitch_bot.poll_in_progress is False and self.db.authors[self.db.current_id]["score"] is None:
+            self.SetScoreFrame(1)
+            self.twitch_bot.poll_art_id = self.db.current_id
+            self.twitch_bot.poll_in_progress = True
+            self.setVoteButtonText("Закончить голосование")
+        elif self.twitch_bot.poll_in_progress and self.db.current_id == self.twitch_bot.poll_art_id:
+            print(self.db.total_scores, self.db.total_authors)
+            if self.db.total_scores + 1 == self.db.total_authors:
+                self.InitPodiumButton()
+            score = str(self.twitch_bot.CalculateAverageScore())
+            if score == -1:
+                print("Failed to fetch score results")
+                return
+            self.db.authors[self.db.current_id]["score"] = score
+            self.db.total_scores += 1
+            self.db.UpdateScore(self.db.current_id+1, score)
 
-        #     self.twitch_bot.poll_in_progress = False
-        #     self.setVoteButtonText("Перейти к следующему")
-        #     self.SetScoreFrame(2)
-        # elif self.db.authors[self.db.current_id]["score"]:
-        #     self.NextButtonClickEvent()
+            self.twitch_bot.poll_in_progress = False
+            self.setVoteButtonText("Перейти к следующему")
+            self.SetScoreFrame(2)
+        elif self.db.authors[self.db.current_id]["score"]:
+            self.NextButtonClickEvent()
     
     def SetScoreFrame(self, frameid): #0 - Discuss; 1 - Polling; 2 - Score
         if(self.score_frame):
@@ -647,7 +644,7 @@ class MainWindow(QMainWindow):
 
             score_frame_paragraph = QLabel(self.db.authors[self.db.current_id]["comment"])
             score_frame_paragraph.setWordWrap(True)
-            score_frame_paragraph.setMinimumHeight(40)
+            score_frame_paragraph.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.MinimumExpanding)
             score_frame_paragraph.setFont(self.font_manager.get_Font("InterTight", 16))
             score_frame_paragraph.setContentsMargins(10, 0, 0, 0)
             score_frame_paragraph.setAlignment(Qt.AlignmentFlag.AlignLeft)
